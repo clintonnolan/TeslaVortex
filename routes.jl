@@ -16,10 +16,10 @@ function get_form(modulus, multiplier)
 end
 
 function draw_vortex(modulus, multiplier)
-  Drawing(1200, 1200, "public/vortex/vortex_$(modulus)_$(multiplier).svg")
+  Drawing(600, 600, "public/vortex/vortex_$(modulus)_$(multiplier).svg")
   origin()
   setcolor("red")
-  Luxor.circle(Point(0,0), 500, :fill)
+  Luxor.circle(Point(0,0), 250, :fill)
   finish()
 end
 
@@ -31,5 +31,19 @@ route("/", method = POST) do
   modulus = postpayload(:modulus, "9")
   multiplier = postpayload(:multiplier, "2")
   draw_vortex(modulus, multiplier)
-  html(get_form(modulus, multiplier) * "<img src=\"vortex/vortex_$(modulus)_$(multiplier).svg\">")
+  page = """
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Tesla Vortex</title>
+    <link href="/css/image_scale.css" rel="stylesheet" />
+  </head>
+  <body>
+    $(get_form(modulus, multiplier))
+    <img src="vortex/vortex_$(modulus)_$(multiplier).svg">
+  </body>
+  </html>
+  """
+  html(page)
 end
