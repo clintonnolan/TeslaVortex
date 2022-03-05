@@ -42,13 +42,7 @@ function draw_vortex(modulus, multiplier)
   finish()
 end
 
-route("/") do
-  html(get_form(9,2))
-end
-
-route("/", method = POST) do
-  modulus = parse(Int64, postpayload(:modulus, "9"))
-  multiplier = parse(Int64, postpayload(:multiplier, "2"))
+function draw_page(modulus, multiplier)
   draw_vortex(modulus, multiplier)
   page = """
   <!DOCTYPE html>
@@ -65,4 +59,14 @@ route("/", method = POST) do
   </html>
   """
   html(page)
+end
+
+route("/") do
+  draw_page(9, 2)
+end
+
+route("/", method = POST) do
+  modulus = parse(Int64, postpayload(:modulus, "9"))
+  multiplier = parse(Int64, postpayload(:multiplier, "2"))
+  draw_page(modulus, multiplier)
 end
