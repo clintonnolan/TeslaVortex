@@ -35,7 +35,7 @@ function draw_vortex(modulus, multiplier)
   turning_angle = (2*π)/modulus
 
   # Draw points around the perimeter of the circle
-  for n in 0:modulus-1
+  for n in 1:modulus
     point = Point(circle_radius*cos(starting_angle+n*turning_angle),circle_radius*sin(starting_angle+n*turning_angle))
     push!(points, point)
     Luxor.circle(point, 5, :fill)
