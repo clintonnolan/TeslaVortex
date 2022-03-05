@@ -45,9 +45,9 @@ function draw_vortex(modulus, multiplier)
     fontsize(16)
     fontface("Serif")
     text_radius = circle_radius + 25
-    for n in 0:modulus-1
+    for n in 1:modulus
         point = Point(text_radius * cos(starting_angle + n * turning_angle), text_radius * sin(starting_angle + n * turning_angle))
-        Luxor.text("$(n+1)", point, halign = :center)
+        Luxor.text("$(n)", point, halign = :center)
     end
 
     # Connect the points
