@@ -18,8 +18,27 @@ end
 function draw_vortex(modulus, multiplier)
   Drawing(600, 600, "public/vortex/vortex_$(modulus)_$(multiplier).svg")
   origin()
-  setcolor("red")
-  Luxor.circle(Point(0,0), 250, :fill)
+  setcolor("black")
+
+  circle_radius = 250
+  Luxor.circle(Point(0,0), circle_radius, :stroke)
+
+  points = Vector{Point}()
+  starting_angle = -π/2
+  turning_angle = (2*π)/modulus
+
+  # Draw points around the perimeter of the circle
+  for n in 0:modulus-1
+    point = Point(circle_radius*cos(starting_angle+n*turning_angle),circle_radius*sin(starting_angle+n*turning_angle))
+    push!(points, point)
+    Luxor.circle(point, 5, :fill)
+  end
+
+  # Label the points
+
+  # Connect the points
+
+
   finish()
 end
 
@@ -28,8 +47,8 @@ route("/") do
 end
 
 route("/", method = POST) do
-  modulus = postpayload(:modulus, "9")
-  multiplier = postpayload(:multiplier, "2")
+  modulus = parse(Int64, postpayload(:modulus, "9"))
+  multiplier = parse(Int64, postpayload(:multiplier, "2"))
   draw_vortex(modulus, multiplier)
   page = """
   <!DOCTYPE html>
