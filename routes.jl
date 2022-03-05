@@ -1,6 +1,7 @@
 using Genie.Router
 using Genie.Renderer.Html
 using Genie.Requests
+using Luxor
 
 function get_form(modulus, multiplier)
   form = """
@@ -14,6 +15,14 @@ function get_form(modulus, multiplier)
   """
 end
 
+function draw_vortex(modulus, multiplier)
+  Drawing(1200, 1200, "public/vortex/vortex_$(modulus)_$(multiplier).svg")
+  origin()
+  setcolor("red")
+  Luxor.circle(Point(0,0), 500, :fill)
+  finish()
+end
+
 route("/") do
   html(get_form(9,2))
 end
@@ -21,5 +30,6 @@ end
 route("/", method = POST) do
   modulus = postpayload(:modulus, "9")
   multiplier = postpayload(:multiplier, "2")
-  html(get_form(modulus, multiplier) * "Modulus: $(modulus) Multiplier: $(multiplier)")
+  draw_vortex(modulus, multiplier)
+  html(get_form(modulus, multiplier) * "<img src=\"vortex/vortex_$(modulus)_$(multiplier).svg\">")
 end
