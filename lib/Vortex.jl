@@ -23,6 +23,12 @@ function transmod(number, mod)
 end
 
 function draw_vortex(modulus, multiplier)
+    if isfile("public/vortex/vortex_$(modulus)_$(multiplier).svg")
+        return
+    end
+
+    @info "Rendering public/vortex/vortex_$(modulus)_$(multiplier).svg"
+
     Drawing(600, 600, "public/vortex/vortex_$(modulus)_$(multiplier).svg")
     origin()
     setcolor("black")
