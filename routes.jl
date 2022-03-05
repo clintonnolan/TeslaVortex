@@ -15,6 +15,13 @@ function get_form(modulus, multiplier)
   """
 end
 
+function transmod(number, mod)
+  if number % mod == 0
+    return mod
+  end
+  return number % mod
+end
+
 function draw_vortex(modulus, multiplier)
   Drawing(600, 600, "public/vortex/vortex_$(modulus)_$(multiplier).svg")
   origin()
@@ -44,7 +51,21 @@ function draw_vortex(modulus, multiplier)
   end
 
   # Connect the points
-
+  found_numbers = Vector{Int64}()
+  for start_number in 1:modulus
+    number = start_number
+    while true
+      previous_number = number
+      number = number * multiplier
+      mod_number = transmod(number, modulus)
+      @debug "number: $(number) mod_number:$(mod_number)"
+      Luxor.line(points[transmod(previous_number, modulus)],points[mod_number], action=:stroke)
+      push!(found_numbers,transmod(number, modulus))
+      if mod_number ∈ found_numbers
+        break
+      end
+    end
+  end
 
   finish()
 end
